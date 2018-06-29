@@ -7,15 +7,15 @@ import (
 )
 
 var (
-	// ErrTooLittleMoney 金额不足
+	// 金额不足
 	ErrTooLittleMoney = errors.New("each person is at least 0.01")
-	// ErrDecimalPlaces 小数点错误
+	// 小数点错误
 	ErrDecimalPlaces = errors.New("accurate to two decimal places")
-	// ErrorTooLittleNumber 红包数量太少
+	// 红包数量太少
 	ErrorTooLittleNumber = errors.New("number must be more than 0")
 )
 
-// Generate 生成算法
+// 生成算法
 func Generate(amount uint32, number uint32) ([]int, error) {
 	// 检查红包数量
 	if number < 1 {

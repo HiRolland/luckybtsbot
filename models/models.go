@@ -14,7 +14,7 @@ import (
 // 数据库连接池
 var pools *sqlbuilder.Database
 
-// Connect 连接数据库
+// 连接数据库
 func Connect(settings db.ConnectionURL) error {
 	if pools != nil {
 		return nil

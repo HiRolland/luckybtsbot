@@ -6,19 +6,19 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-// Dynamic 动态配置
+// 动态配置
 type Dynamic struct {
 	DynamicCfg
 	lock sync.RWMutex
 }
 
-// FeeCfg 手续费配置
+// 手续费配置
 type FeeCfg struct {
 	CNY uint32 `yaml:"cny"` // 人民币手续费
 	USD uint32 `yaml:"usd"` // 美元手续费
 }
 
-// DynamicCfg 配置数据
+// 配置数据
 type DynamicCfg struct {
 	WhiteList        []string `yaml:"white_list"`         // 地址白名单
 	Suspended        bool     `yaml:"suspended"`          // 是否暂停服务

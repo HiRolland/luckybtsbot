@@ -14,13 +14,13 @@ import (
 	"github.com/zhangpanyi/basebot/telegram/types"
 )
 
-// Handler 消息处理
+// 消息处理
 type Handler interface {
 	route(*methods.BotExt, *types.CallbackQuery) Handler
 	Handle(*methods.BotExt, *history.History, *types.Update)
 }
 
-// UpdateLuckyMoney 更新红包信息
+// 更新红包信息
 func UpdateLuckyMoney(bot *methods.BotExt, luckyMoney *storage.LuckyMoney, received uint32) {
 	if !luckyMoney.Active {
 		return
@@ -58,11 +58,11 @@ func UpdateLuckyMoney(bot *methods.BotExt, luckyMoney *storage.LuckyMoney, recei
 	}
 }
 
-// MainMenuHandler 主菜单
+// 主菜单
 type MainMenuHandler struct {
 }
 
-// Handle 消息处理
+// 消息处理
 func (handler *MainMenuHandler) Handle(bot *methods.BotExt, r *history.History, update *types.Update) {
 	// 处理发送红包
 	if update.Message != nil {

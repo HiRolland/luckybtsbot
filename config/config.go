@@ -12,20 +12,20 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-// SQliteCfg MySQL配置
+// MySQL配置
 type SQliteCfg struct {
 	Database string            `yaml:"db"`      // 数据库名
 	Options  map[string]string `yaml:"options"` // 附加选项
 }
 
-// Serve 服务配置
+// 服务配置
 type Serve struct {
 	Port       int       `yaml:"port"`        // HTTP端口
 	Domain     string    `yaml:"domain"`      // 服务域名
 	APIWebsite string    `yaml:"api_website"` // API服务站点
 	Token      string    `yaml:"token"`       // 机器人token
 	BucketNum  uint32    `yaml:"bucket_num"`  // 记录桶数量
-	Account    string    `yaml:"account"`     // 账户名称
+	Account    string    `yaml:"-"`           // 账户名称
 	SQlite     SQliteCfg `yaml:"sqlite"`      // 数据库配置
 	MonitorURL string    `yaml:"monitor_url"` // 监控服务地址
 	Dynamic    string    `yaml:"dynamic"`     // 动态文件配置
@@ -33,12 +33,12 @@ type Serve struct {
 	Languages  string    `yaml:"languages"`   // 语言配置路径
 }
 
-// parser 配置解析器
+// 配置解析器
 type parser interface {
 	parse([]byte) error
 }
 
-// Manager 配置管理器
+// 配置管理器
 type Manager struct {
 	serve      *Serve
 	languges   *Languges
@@ -47,22 +47,27 @@ type Manager struct {
 	fileparser map[string]parser
 }
 
-// GetServe 获取服务配置
+// 获取服务配置
 func GetServe() Serve {
 	return *globalManager.serve
 }
 
-// GetLanguge 获取语言配置
+// 获取语言配置
 func GetLanguge() *Languges {
 	return globalManager.languges
 }
 
-// GetDynamic 获取动态配置
+// 获取动态配置
 func GetDynamic() DynamicCfg {
 	return globalManager.dynamic.DynamicCfg
 }
 
-// LoadConfig 加载配置文件
+// 设置系统账户
+func SetAccount(account string) {
+	globalManager.serve.Account = account
+}
+
+// 加载配置文件
 func LoadConfig(path string) {
 	once.Do(func() {
 		// 创建观察器

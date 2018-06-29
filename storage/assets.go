@@ -9,11 +9,11 @@ import (
 )
 
 var (
-	// ErrLackOfAssets 资产不足
+	// 资产不足
 	ErrLackOfAssets = errors.New("lack of assets")
-	// ErrUserNotExist 用户不存在
+	// 用户不存在
 	ErrUserNotExist = errors.New("user does not exist")
-	// ErrNoSuchTypeAsset 没有此类型资产
+	// 没有此类型资产
 	ErrNoSuchTypeAsset = errors.New("no such type of assets")
 )
 
@@ -30,11 +30,11 @@ var (
 // }
 // ***************************************************
 
-// AssetStorage 资产存储
+// 资产存储
 type AssetStorage struct {
 }
 
-// GetAssets 获取资产列表
+// 获取资产列表
 func (storage *AssetStorage) GetAssets(userID int64) ([]*Asset, error) {
 	assets := make([]*Asset, 0)
 	key := strconv.FormatInt(userID, 10)
@@ -65,7 +65,7 @@ func (storage *AssetStorage) GetAssets(userID int64) ([]*Asset, error) {
 	return assets, nil
 }
 
-// GetAsset 获取资产信息
+// 获取资产信息
 func (storage *AssetStorage) GetAsset(userID int64, asset string) (*Asset, error) {
 	var result Asset
 	key := strconv.FormatInt(userID, 10)
@@ -92,7 +92,7 @@ func (storage *AssetStorage) GetAsset(userID int64, asset string) (*Asset, error
 	return &result, nil
 }
 
-// Deposit 存款
+// 存款
 func (storage *AssetStorage) Deposit(userID int64, asset string, amount uint32) error {
 	key := strconv.FormatInt(userID, 10)
 	return blotDB.Update(func(tx *bolt.Tx) error {
@@ -125,7 +125,7 @@ func (storage *AssetStorage) Deposit(userID int64, asset string, amount uint32) 
 	})
 }
 
-// Withdraw 取款
+// 取款
 func (storage *AssetStorage) Withdraw(userID int64, asset string, amount uint32) error {
 	key := strconv.FormatInt(userID, 10)
 	return blotDB.Update(func(tx *bolt.Tx) error {
@@ -161,7 +161,7 @@ func (storage *AssetStorage) Withdraw(userID int64, asset string, amount uint32)
 	})
 }
 
-// FrozenAsset 冻结资产
+// 冻结资产
 func (storage *AssetStorage) FrozenAsset(userID int64, asset string, amount uint32) error {
 	key := strconv.FormatInt(userID, 10)
 	return blotDB.Update(func(tx *bolt.Tx) error {
@@ -198,7 +198,7 @@ func (storage *AssetStorage) FrozenAsset(userID int64, asset string, amount uint
 	})
 }
 
-// UnfreezeAsset 解冻资产
+// 解冻资产
 func (storage *AssetStorage) UnfreezeAsset(userID int64, asset string, amount uint32) error {
 	key := strconv.FormatInt(userID, 10)
 	return blotDB.Update(func(tx *bolt.Tx) error {
@@ -235,7 +235,7 @@ func (storage *AssetStorage) UnfreezeAsset(userID int64, asset string, amount ui
 	})
 }
 
-// TransferFrozenAsset 转移冻结资金
+// 转移冻结资金
 func (storage *AssetStorage) TransferFrozenAsset(from, to int64, asset string, amount uint32) error {
 	toKey := strconv.FormatInt(to, 10)
 	fromKey := strconv.FormatInt(from, 10)

@@ -8,19 +8,19 @@ import (
 var once sync.Once
 var service *withdrawService
 
-// RunWithdrawServiceForOnce 运行提现服务
+// 运行提现服务
 func RunWithdrawServiceForOnce(numWorkers int) {
 	once.Do(func() {
 		service = newWithdrawService(numWorkers)
 	})
 }
 
-// AddFuture 添加任务
+// 添加任务
 func AddFuture(userID int64, to, assetID string, amount uint32, fee uint32) (*Future, error) {
 	return service.getWorker().addFuture(userID, to, assetID, amount, fee)
 }
 
-// RestoreFuture 恢复任务
+// 恢复任务
 func RestoreFuture(orderID int64) (*Future, error) {
 	return service.getWorker().restoreFuture(orderID)
 }

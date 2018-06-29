@@ -65,6 +65,9 @@ func (req *Request) Call() ([]byte, error) {
 
 // 生成请求
 func MakeRequest(method string, params ...interface{}) *Request {
+	if len(params) == 0 {
+		params = make([]interface{}, 0)
+	}
 	req := new(Request)
 	req.ID = 1
 	req.Version = "2.0"
@@ -83,7 +86,7 @@ func GetAccount() (string, error) {
 	return string(jsb), nil
 }
 
-// GetFees 获取手续费
+// 获取手续费
 func GetFees(assets []string) ([]uint32, error) {
 	request := MakeRequest("get_transfer_fees", assets)
 	jsb, err := request.Call()
@@ -103,7 +106,7 @@ func GetFees(assets []string) ([]uint32, error) {
 	return result, nil
 }
 
-// Transfer 转账操作
+// 转账操作
 func Transfer(orderID int64, to, asset string, amount uint32) error {
 	memo := strconv.FormatInt(orderID, 10)
 	request := MakeRequest("transfer", to, asset, amount, memo)

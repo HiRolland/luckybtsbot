@@ -33,7 +33,7 @@ func tr(userID int64, key string) string {
 	return config.GetLanguge().Value("zh_CN", key)
 }
 
-// SendLuckyMoneyToGroup 发送红包到群组
+// 发送红包到群组
 func SendLuckyMoneyToGroup(bot *methods.BotExt, userID, chatID int64, id uint64) error {
 	// 获取红包信息
 	newHandler := storage.LuckyMoneyStorage{}

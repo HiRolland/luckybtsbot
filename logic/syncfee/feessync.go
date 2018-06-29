@@ -16,7 +16,7 @@ import (
 var fees sync.Map
 var once sync.Once
 
-// CheckFeeStatusAsync 检查转账费用
+// 检查转账费用
 func CheckFeeStatusAsync() {
 	once.Do(func() {
 		if err := syncTransferFees(); err != nil {
@@ -40,7 +40,7 @@ func CheckFeeStatusAsync() {
 	})
 }
 
-// GetFee 获取手续费
+// 获取手续费
 func GetFee(asset string) (uint32, error) {
 	// 获取固定手续费
 	dynamicCfg := config.GetDynamic()

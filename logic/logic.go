@@ -12,7 +12,7 @@ import (
 	"github.com/zhangpanyi/basebot/telegram/types"
 )
 
-// NewUpdate 机器人更新
+// 机器人更新
 func NewUpdate(bot *methods.BotExt, update *types.Update) {
 	// 是否暂停服务
 	dynamicCfg := config.GetDynamic()

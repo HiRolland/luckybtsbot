@@ -69,7 +69,7 @@ func luckyMoneysTypeToString(fromID int64, typ string) string {
 	return tr(fromID, "lng_priv_give_equal")
 }
 
-// GiveHandler 发放红包
+// 发放红包
 type GiveHandler struct {
 }
 
@@ -82,7 +82,7 @@ type luckyMoneys struct {
 	memo   string // 红包备注
 }
 
-// Handle 消息处理
+// 消息处理
 func (handler *GiveHandler) Handle(bot *methods.BotExt, r *history.History, update *types.Update) {
 	// 处理选择资产
 	data := update.CallbackQuery.Data

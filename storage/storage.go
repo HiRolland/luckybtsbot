@@ -11,23 +11,23 @@ import (
 var blotDB *bolt.DB
 
 var (
-	// ErrNoBucket 没有桶
+	// 没有桶
 	ErrNoBucket = errors.New("no bucket")
 )
 
-// Connect 连接到数据库
+// 连接到数据库
 func Connect(path string) error {
 	var err error
 	blotDB, err = bolt.Open(path, 0600, nil)
 	return err
 }
 
-// Close 关闭连接
+// 关闭连接
 func Close() error {
 	return blotDB.Close()
 }
 
-// Backup 备份数据库
+// 备份数据库
 func Backup(writer io.Writer) (int64, error) {
 	var size int64
 	err := blotDB.View(func(tx *bolt.Tx) error {

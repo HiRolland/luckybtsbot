@@ -15,17 +15,17 @@ import (
 // }
 // ***************************************************
 
-// Ad 广告信息
+// 广告信息
 type Ad struct {
 	ID   uint32 `json:"id"`   // 广告ID
 	Text string `json:"text"` // 广告文本
 }
 
-// AdStorage 广告存储
+// 广告存储
 type AdStorage struct {
 }
 
-// GetAds 获取广告
+// 获取广告
 func (storage *AdStorage) GetAds(botID int64) ([]*Ad, error) {
 	ads := make([]*Ad, 0)
 	key := strconv.FormatInt(botID, 10)
@@ -51,7 +51,7 @@ func (storage *AdStorage) GetAds(botID int64) ([]*Ad, error) {
 	return ads, nil
 }
 
-// AddAd 添加广告
+// 添加广告
 func (storage *AdStorage) AddAd(botID int64, ad string) (uint32, error) {
 	var avID uint32
 	key := strconv.FormatInt(botID, 10)
@@ -76,7 +76,7 @@ func (storage *AdStorage) AddAd(botID int64, ad string) (uint32, error) {
 	return avID, nil
 }
 
-// DelAd 删除广告
+// 删除广告
 func (storage *AdStorage) DelAd(botID int64, id uint32) error {
 	sid := strconv.Itoa(int(id))
 	key := strconv.FormatInt(botID, 10)

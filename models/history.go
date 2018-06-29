@@ -6,17 +6,17 @@ import (
 	db "upper.io/db.v3"
 )
 
-// HistoryTableName 数据库表名
+// 数据库表名
 const HistoryTableName = "history"
 
-// History 历史记录
+// 历史记录
 type History struct {
 	UserID     int64     `db:"user_id"`     // 用户ID
 	Describe   string    `db:"describe"`    // 描述信息
 	InsertedAt time.Time `db:"inserted_at"` // 插入日期
 }
 
-// InsertHistory 插入历史
+// 插入历史
 func InsertHistory(userID int64, describe string) error {
 	if pools == nil {
 		return db.ErrNotConnected
@@ -28,7 +28,7 @@ func InsertHistory(userID int64, describe string) error {
 	return err
 }
 
-// GetUserHistory 获取用户历史记录
+// 获取用户历史记录
 func GetUserHistory(userID int64, page int, number int) ([]History, uint, error) {
 	if pools == nil {
 		return nil, 0, db.ErrNotConnected

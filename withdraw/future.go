@@ -10,7 +10,7 @@ type Transfer struct {
 	OrderID int64  // 订单ID
 }
 
-// Future 任务
+// 任务
 type Future struct {
 	ch       chan error
 	OrderID  int64
@@ -23,7 +23,7 @@ func newFuture(orderID int64, transfer *Transfer) *Future {
 	return &Future{ch: ch, OrderID: orderID, Transfer: transfer}
 }
 
-// GetResult 获取结果
+// 获取结果
 func (f *Future) GetResult() error {
 	err := <-f.ch
 	return err

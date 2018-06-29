@@ -25,11 +25,11 @@ func init() {
 	}
 }
 
-// HistoryHandler 历史记录
+// 历史记录
 type HistoryHandler struct {
 }
 
-// Handle 消息处理
+// 消息处理
 func (handler *HistoryHandler) Handle(bot *methods.BotExt, r *history.History, update *types.Update) {
 	data := update.CallbackQuery.Data
 	result := reMathHistoryPage.FindStringSubmatch(data)

@@ -7,11 +7,11 @@ import (
 	"github.com/zhangpanyi/basebot/telegram/types"
 )
 
-// GetChatIDHandler 获取群组ID
+// 获取群组ID
 type GetChatIDHandler struct {
 }
 
-// Handle 消息处理
+// 消息处理
 func (handler *GetChatIDHandler) Handle(bot *methods.BotExt, r *history.History, update *types.Update) {
 	fromID := update.Message.From.ID
 	reply := tr(fromID, "lng_chat_get_chat_id")

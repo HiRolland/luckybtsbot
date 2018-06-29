@@ -1,20 +1,20 @@
 package storage
 
 var (
-	// BitUSD 美元
+	// 美元
 	BitUSD = "bitUSD"
-	// BitCNY 人民币
+	// 人民币
 	BitCNY = "bitCNY"
 )
 
 var (
-	// BitUSDSymbol 美元符号
+	// 美元符号
 	BitUSDSymbol = "USD"
-	// BitCNYSymbol 人民币符号
+	// 人民币符号
 	BitCNYSymbol = "CNY"
 )
 
-// GetAsset 获取资产名
+// 获取资产名
 func GetAsset(symbol string) string {
 	switch symbol {
 	case BitUSDSymbol:
@@ -26,7 +26,7 @@ func GetAsset(symbol string) string {
 	}
 }
 
-// GetAssetSymbol 获取资产符号
+// 获取资产符号
 func GetAssetSymbol(asset string) string {
 	switch asset {
 	case BitUSD:
@@ -38,14 +38,14 @@ func GetAssetSymbol(asset string) string {
 	}
 }
 
-// Asset 资产信息
+// 资产信息
 type Asset struct {
 	Asset  string `json:"asset"`  // 资产名称
 	Amount uint32 `json:"amount"` // 资产总额
 	Freeze uint32 `json:"freeze"` // 冻结资产
 }
 
-// LuckyMoney 红包信息
+// 红包信息
 type LuckyMoney struct {
 	ID         uint64 `json:"id"`          // 红包ID
 	GroupID    int64  `json:"group_id"`    // 群组ID
@@ -63,13 +63,13 @@ type LuckyMoney struct {
 	Timestamp  int64  `json:"timestamp"`   // 时间戳
 }
 
-// LuckyMoneyUser 红包用户
+// 红包用户
 type LuckyMoneyUser struct {
 	UserID    int64  `json:"user_id"`    // 用户ID
 	FirstName string `json:"first_name"` // 用户名
 }
 
-// LuckyMoneyRecord 红包记录
+// 红包记录
 type LuckyMoneyRecord struct {
 	Value int             `json:"value"`          // 红包金额
 	User  *LuckyMoneyUser `json:"user,omitempty"` // 用户信息

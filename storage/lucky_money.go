@@ -10,17 +10,17 @@ import (
 )
 
 var (
-	// ErrNothingLeft 领完了
+	// 领完了
 	ErrNothingLeft = errors.New("nothing left")
-	// ErrRepeatReceive 重复领取
+	// 重复领取
 	ErrRepeatReceive = errors.New("repeat receive")
-	// ErrNotActivated 没有激活
+	// 没有激活
 	ErrNotActivated = errors.New("not activated")
-	// ErrAlreadyActivated 已经激活
+	// 已经激活
 	ErrAlreadyActivated = errors.New("already activated")
-	// ErrPermissionDenied 没有权限
+	// 没有权限
 	ErrPermissionDenied = errors.New("permission denied")
-	// ErrLuckyMoneydExpired 红包已过期
+	// 红包已过期
 	ErrLuckyMoneydExpired = errors.New("lucky money expired")
 )
 
@@ -46,7 +46,7 @@ var (
 // }
 // ***************************************************
 
-// LuckyMoneyStorage 红包存储
+// 红包存储
 type LuckyMoneyStorage struct {
 }
 
@@ -91,7 +91,7 @@ func (handler *LuckyMoneyStorage) newRecord(tx *bolt.Tx, sid string,
 	return minValueSeq, maxValueSeq, nil
 }
 
-// NewLuckyMoney 创建新红包
+// 创建新红包
 func (handler *LuckyMoneyStorage) NewLuckyMoney(data *LuckyMoney, luckyMoneyArr []int) (*LuckyMoney, error) {
 	err := blotDB.Update(func(tx *bolt.Tx) error {
 		// 生成红包ID
@@ -166,7 +166,7 @@ func (handler *LuckyMoneyStorage) NewLuckyMoney(data *LuckyMoney, luckyMoneyArr 
 	return data, nil
 }
 
-// IsExpired 是否过期
+// 是否过期
 func (handler *LuckyMoneyStorage) IsExpired(id uint64) bool {
 	var expired bool
 	sid := strconv.FormatUint(id, 10)
@@ -185,7 +185,7 @@ func (handler *LuckyMoneyStorage) IsExpired(id uint64) bool {
 	return expired
 }
 
-// SetExpired 设置过期
+// 设置过期
 func (handler *LuckyMoneyStorage) SetExpired(id uint64) error {
 	sid := strconv.FormatUint(id, 10)
 	return blotDB.Update(func(tx *bolt.Tx) error {
@@ -197,7 +197,7 @@ func (handler *LuckyMoneyStorage) SetExpired(id uint64) error {
 	})
 }
 
-// IsReceived 是否已领取
+// 是否已领取
 func (handler *LuckyMoneyStorage) IsReceived(id uint64, userID int64) (bool, error) {
 	received := false
 	sid := strconv.FormatUint(id, 10)
@@ -215,7 +215,7 @@ func (handler *LuckyMoneyStorage) IsReceived(id uint64, userID int64) (bool, err
 	return received, nil
 }
 
-// GetLastExpired 获取上次过期红包
+// 获取上次过期红包
 func (handler *LuckyMoneyStorage) GetLastExpired() (uint64, error) {
 	var id uint64
 	err := blotDB.View(func(tx *bolt.Tx) error {
@@ -242,7 +242,7 @@ func (handler *LuckyMoneyStorage) GetLastExpired() (uint64, error) {
 	return id, nil
 }
 
-// SetLastExpired 设置上次过期红包
+// 设置上次过期红包
 func (handler *LuckyMoneyStorage) SetLastExpired(id uint64) error {
 	sid := strconv.FormatUint(id, 10)
 	return blotDB.Update(func(tx *bolt.Tx) error {
@@ -254,7 +254,7 @@ func (handler *LuckyMoneyStorage) SetLastExpired(id uint64) error {
 	})
 }
 
-// GetLuckyMoney 获取红包信息
+// 获取红包信息
 func (handler *LuckyMoneyStorage) GetLuckyMoney(id uint64) (*LuckyMoney, uint32, error) {
 	var received uint32
 	var base LuckyMoney
@@ -289,7 +289,7 @@ func (handler *LuckyMoneyStorage) GetLuckyMoney(id uint64) (*LuckyMoney, uint32,
 	return &base, received, nil
 }
 
-// ActiveLuckyMoney 激活红包
+// 激活红包
 func (handler *LuckyMoneyStorage) ActiveLuckyMoney(id uint64, userID, chatID int64, messageID int32) error {
 	sid := strconv.FormatUint(id, 10)
 	return blotDB.Update(func(tx *bolt.Tx) error {
@@ -357,7 +357,7 @@ func (handler *LuckyMoneyStorage) receiveLuckyMoney(tx *bolt.Tx, sid string, seq
 	return record.Value, nil
 }
 
-// ReceiveLuckyMoney 领取红包
+// 领取红包
 func (handler *LuckyMoneyStorage) ReceiveLuckyMoney(id uint64, userID int64,
 	firstName string) (int, int, error) {
 
@@ -451,7 +451,7 @@ func (handler *LuckyMoneyStorage) ReceiveLuckyMoney(id uint64, userID int64,
 	return value, count, nil
 }
 
-// GetTwoTxtremes 获取两个极端
+// 获取两个极端
 func (handler *LuckyMoneyStorage) GetTwoTxtremes(id uint64) (*LuckyMoneyRecord, *LuckyMoneyRecord, error) {
 	var minRecord LuckyMoneyRecord
 	var maxRecord LuckyMoneyRecord
@@ -496,7 +496,7 @@ func (handler *LuckyMoneyStorage) GetTwoTxtremes(id uint64) (*LuckyMoneyRecord, 
 	return &minRecord, &maxRecord, nil
 }
 
-// ForeachLuckyMoney 遍历红包列表
+// 遍历红包列表
 func (handler *LuckyMoneyStorage) ForeachLuckyMoney(startID uint64, callback func(*LuckyMoney)) error {
 	var base LuckyMoney
 	return blotDB.View(func(tx *bolt.Tx) error {

@@ -6,25 +6,25 @@ import (
 	"upper.io/db.v3"
 )
 
-// WithdrawTableName 数据库表名
+// 数据库表名
 const WithdrawTableName = "withdraw"
 
-// WithdrawStatus 提现状态
+// 提现状态
 type WithdrawStatus int
 
 const (
 	_ WithdrawStatus = iota
-	// WithdrawStatusWaiting 等待提现
+	// 等待提现
 	WithdrawStatusWaiting
-	// WithdrawStatusProcessing 正在提现
+	// 正在提现
 	WithdrawStatusProcessing
-	// WithdrawStatusSuccessful 提现成功
+	// 提现成功
 	WithdrawStatusSuccessful
-	// WithdrawStatusFailure 提现失败
+	// 提现失败
 	WithdrawStatusFailure
 )
 
-// Withdraw 提现记录
+// 提现记录
 type Withdraw struct {
 	OrderID    int64          `db:"id"`               // 订单ID
 	UserID     int64          `db:"user_id"`          // 用户ID
@@ -38,7 +38,7 @@ type Withdraw struct {
 	InsertedAt time.Time      `db:"inserted_at"`      // 插入日期
 }
 
-// GetWithdrawOrder 获取提现订单
+// 获取提现订单
 func GetWithdrawOrder(orderID int64) (*Withdraw, error) {
 	if pools == nil {
 		return nil, db.ErrNotConnected
@@ -52,7 +52,7 @@ func GetWithdrawOrder(orderID int64) (*Withdraw, error) {
 	return &withdraw, nil
 }
 
-// InsertWithdraw 插入提现记录
+// 插入提现记录
 func InsertWithdraw(userID int64, to, assetID string, amount, fee uint32) (int64, error) {
 	if pools == nil {
 		return 0, db.ErrNotConnected
@@ -73,7 +73,7 @@ func InsertWithdraw(userID int64, to, assetID string, amount, fee uint32) (int64
 	return insertID, nil
 }
 
-// UpdateWithdrawFee 更新手续费
+// 更新手续费
 func UpdateWithdrawFee(orderID int64, fee uint32) error {
 	if pools == nil {
 		return db.ErrNotConnected
@@ -84,7 +84,7 @@ func UpdateWithdrawFee(orderID int64, fee uint32) error {
 	return err
 }
 
-// UpdateWithdraw 更新提现记录
+// 更新提现记录
 func UpdateWithdraw(orderID int64, status WithdrawStatus, reason *string) error {
 	if pools == nil {
 		return db.ErrNotConnected

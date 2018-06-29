@@ -55,7 +55,7 @@ func init() {
 	}
 }
 
-// WithdrawHandler 取款
+// 取款
 type WithdrawHandler struct {
 }
 
@@ -66,7 +66,7 @@ type withdrawInfo struct {
 	amount  uint32 // 资产数量
 }
 
-// Handle 消息处理
+// 消息处理
 func (handler *WithdrawHandler) Handle(bot *methods.BotExt, r *history.History, update *types.Update) {
 	// 处理选择资产
 	data := update.CallbackQuery.Data

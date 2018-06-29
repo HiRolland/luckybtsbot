@@ -12,17 +12,17 @@ import (
 	"github.com/zhangpanyi/basebot/telegram/types"
 )
 
-// Handler 消息处理器
+// 消息处理器
 type Handler interface {
 	route(*methods.BotExt, *types.CallbackQuery) Handler
 	Handle(*methods.BotExt, *history.History, *types.Update)
 }
 
-// MainMenuHandler 主菜单
+// 主菜单
 type MainMenuHandler struct {
 }
 
-// Handle 消息处理
+// 消息处理
 func (handler *MainMenuHandler) Handle(bot *methods.BotExt, r *history.History, update *types.Update) {
 	if bot == nil || r == nil {
 		return

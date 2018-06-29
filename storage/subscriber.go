@@ -6,11 +6,11 @@ import (
 	"github.com/boltdb/bolt"
 )
 
-// SubscriberStorage 订户存储
+// 订户存储
 type SubscriberStorage struct {
 }
 
-// GetSubscribers 获取订阅者
+// 获取订阅者
 func (*SubscriberStorage) GetSubscribers(botID int64) ([]int64, error) {
 	var subscribers []int64
 	err := blotDB.View(func(tx *bolt.Tx) error {
@@ -37,7 +37,7 @@ func (*SubscriberStorage) GetSubscribers(botID int64) ([]int64, error) {
 	return subscribers, nil
 }
 
-// AddSubscriber 添加订阅者
+// 添加订阅者
 func (*SubscriberStorage) AddSubscriber(botID, userID int64) error {
 	return blotDB.Batch(func(tx *bolt.Tx) error {
 		key := strconv.FormatInt(botID, 10)
@@ -54,7 +54,7 @@ func (*SubscriberStorage) AddSubscriber(botID, userID int64) error {
 	})
 }
 
-// GetSubscriberCount 获取订阅者数量
+// 获取订阅者数量
 func (*SubscriberStorage) GetSubscriberCount(botID int64) (int, error) {
 	var count int
 	err := blotDB.View(func(tx *bolt.Tx) error {

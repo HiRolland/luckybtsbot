@@ -22,11 +22,11 @@ func init() {
 	}
 }
 
-// SelectGroupHandler 选择群组
+// 选择群组
 type SelectGroupHandler struct {
 }
 
-// Handle 消息处理
+// 消息处理
 func (*SelectGroupHandler) Handle(bot *methods.BotExt, r *history.History, update *types.Update) {
 	// 提示输入
 	back, err := r.Back()

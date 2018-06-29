@@ -8,11 +8,11 @@ import (
 	"github.com/zhangpanyi/basebot/telegram/types"
 )
 
-// ShareBotHandler 分享机器人
+// 分享机器人
 type ShareBotHandler struct {
 }
 
-// Handle 消息处理
+// 消息处理
 func (*ShareBotHandler) Handle(bot *methods.BotExt, r *history.History, update *types.Update) {
 	fromID := update.CallbackQuery.From.ID
 	reply := fmt.Sprintf(tr(fromID, "lng_priv_share_say"), bot.UserName,

@@ -19,7 +19,7 @@ import (
 var once sync.Once
 var globalExpireTimer *expireTimer
 
-// StartTimerForOnce 启动定时器
+// 启动定时器
 func StartTimerForOnce(bot *methods.BotExt, pool *updater.Pool) {
 	once.Do(func() {
 		// 获取最后过期红包
@@ -48,12 +48,12 @@ func StartTimerForOnce(bot *methods.BotExt, pool *updater.Pool) {
 	})
 }
 
-// GetBot 获取机器人
+// 获取机器人
 func GetBot() *methods.BotExt {
 	return globalExpireTimer.bot
 }
 
-// AddLuckyMoney 添加红包
+// 添加红包
 func AddLuckyMoney(id uint64, timestamp int64) {
 	globalExpireTimer.lock.Lock()
 	defer globalExpireTimer.lock.Unlock()

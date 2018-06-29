@@ -10,11 +10,11 @@ import (
 	"github.com/zhangpanyi/basebot/telegram/types"
 )
 
-// DepositHandler 存款
+// 存款
 type DepositHandler struct {
 }
 
-// Handle 消息处理
+// 消息处理
 func (*DepositHandler) Handle(bot *methods.BotExt, r *history.History, update *types.Update) {
 	// 是否开放充值
 	dynamicCfg := config.GetDynamic()

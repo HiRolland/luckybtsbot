@@ -6,7 +6,9 @@ import (
 	"github.com/vrecan/death"
 	"github.com/zhangpanyi/basebot/logger"
 	"github.com/zhangpanyi/basebot/telegram/updater"
+	"github.com/zhangpanyi/botcasino/admin"
 	"github.com/zhangpanyi/botcasino/config"
+	"github.com/zhangpanyi/botcasino/httprpc"
 	"github.com/zhangpanyi/botcasino/logic"
 	context "github.com/zhangpanyi/botcasino/logic/context"
 	"github.com/zhangpanyi/botcasino/logic/notice"
@@ -16,7 +18,6 @@ import (
 	"github.com/zhangpanyi/botcasino/pusher"
 	"github.com/zhangpanyi/botcasino/storage"
 	"github.com/zhangpanyi/botcasino/webhook"
-	"github.com/zhangpanyi/botcasino/webrpc"
 	"github.com/zhangpanyi/botcasino/withdraw"
 	"upper.io/db.v3/sqlite"
 )
@@ -44,12 +45,19 @@ func main() {
 		logger.Panic(err)
 	}
 
+	// 设置系统账户
+	account, err := httprpc.GetAccount()
+	if err != nil {
+		logger.Panic(err)
+	}
+	config.SetAccount(account)
+
 	// 创建更新器
 	botUpdater, err := updater.NewUpdater(serveCfg.Port, serveCfg.Domain, serveCfg.APIWebsite)
 	if err != nil {
 		logger.Panic(err)
 	}
-	webrpc.InitRoute(botUpdater.GetRouter())
+	admin.InitRoute(botUpdater.GetRouter())
 	webhook.InitRoute(botUpdater.GetRouter())
 
 	// 同步转账手续费

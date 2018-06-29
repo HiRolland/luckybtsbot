@@ -13,9 +13,6 @@ api_website: "https://api.telegram.org/"
 # 机器人token
 token: "YOURTOKEN"
 
-# 比特股账号
-account: "YOURACCOUNT"
-
 # 动态配置文件
 dynamic: "dynamic.yml"
 

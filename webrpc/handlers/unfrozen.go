@@ -9,7 +9,7 @@ import (
 	"github.com/zhangpanyi/botcasino/storage"
 )
 
-// Unfrozen 解冻资产
+// 解冻资产
 func Unfrozen(w http.ResponseWriter, r *http.Request) {
 	// 验证权限
 	if !authentication(r) {
@@ -38,7 +38,7 @@ func Unfrozen(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	logger.Errorf("Unfrozen user asset from webrpc, UserID: %d, Asset: %s, Amount: %d",
+	logger.Errorf("Unfrozen user asset from admin API, UserID: %d, Asset: %s, Amount: %d",
 		request.UserID, request.Asset, request.Amount)
 
 	reply := UnfrozenAssetReply{OK: true}

@@ -11,7 +11,7 @@ import (
 var once sync.Once
 var globalPusher *telegramPusher
 
-// CreatePusherForOnce 创建推送器
+// 创建推送器
 func CreatePusherForOnce(pool *updater.Pool) {
 	once.Do(func() {
 		globalPusher = &telegramPusher{

@@ -14,7 +14,7 @@ func init() {
 	}
 }
 
-// FormatAsHongkong 格式化为香港时间
+// 格式化为香港时间
 func FormatAsHongkong(utctime time.Time) string {
 	format := "2006-01-02 15:04:05"
 	s := utctime.Format(format)

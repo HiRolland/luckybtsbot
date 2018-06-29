@@ -6,7 +6,7 @@ import (
 	"sync"
 )
 
-// Languges 语言包配置
+// 语言包配置
 type Languges struct {
 	lock sync.RWMutex
 	priv map[string]privLanguges
@@ -14,14 +14,14 @@ type Languges struct {
 
 type privLanguges map[string]string
 
-// NewLanguges 创建语言包
+// 创建语言包
 func NewLanguges() *Languges {
 	return &Languges{
 		priv: make(map[string]privLanguges),
 	}
 }
 
-// Value 获取配置
+// 获取配置
 func (l *Languges) Value(code string, key string) string {
 	l.lock.RLock()
 	defer l.lock.RUnlock()
