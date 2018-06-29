@@ -23,7 +23,7 @@ languages: "languages"
 boltdb_path: "master.db"
 
 # 监控服务地址
-monitor_url: "http://127.0.0.1:18080/"
+monitor_url: "http://btsmonitor:18080/"
 
 # 数据库配置
 sqlite:
