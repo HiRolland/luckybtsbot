@@ -12,12 +12,6 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-// Service 服务配置
-type Service struct {
-	Address string `yaml:"address"` // 地址
-	Port    int    `yaml:"port"`    // 端口号
-}
-
 // SQliteCfg MySQL配置
 type SQliteCfg struct {
 	Database string            `yaml:"db"`      // 数据库名
@@ -26,19 +20,17 @@ type SQliteCfg struct {
 
 // Serve 服务配置
 type Serve struct {
-	Port            int       `yaml:"port"`              // HTTP端口
-	GRPCBindAddress string    `yaml:"grpc_bind_address"` // gRPC绑定地址
-	GRPCPort        int       `yaml:"grpc_port"`         // gRPC服务端口
-	Domain          string    `yaml:"domain"`            // 服务域名
-	APIWebsite      string    `yaml:"api_website"`       // API服务站点
-	Token           string    `yaml:"token"`             // 机器人token
-	BucketNum       uint32    `yaml:"bucket_num"`        // 记录桶数量
-	Account         string    `yaml:"account"`           // 账户名称
-	SQlite          SQliteCfg `yaml:"sqlite"`            // 数据库配置
-	WalletService   Service   `yaml:"wallet_service"`    // 钱包服务配置
-	Dynamic         string    `yaml:"dynamic"`           // 动态文件配置
-	BolTDBPath      string    `yaml:"boltdb_path"`       // BoltDB路径
-	Languages       string    `yaml:"languages"`         // 语言配置路径
+	Port       int       `yaml:"port"`        // HTTP端口
+	Domain     string    `yaml:"domain"`      // 服务域名
+	APIWebsite string    `yaml:"api_website"` // API服务站点
+	Token      string    `yaml:"token"`       // 机器人token
+	BucketNum  uint32    `yaml:"bucket_num"`  // 记录桶数量
+	Account    string    `yaml:"account"`     // 账户名称
+	SQlite     SQliteCfg `yaml:"sqlite"`      // 数据库配置
+	MonitorURL string    `yaml:"monitor_url"` // 监控服务地址
+	Dynamic    string    `yaml:"dynamic"`     // 动态文件配置
+	BolTDBPath string    `yaml:"boltdb_path"` // BoltDB路径
+	Languages  string    `yaml:"languages"`   // 语言配置路径
 }
 
 // parser 配置解析器

@@ -7,9 +7,9 @@ import (
 	"strings"
 
 	"github.com/zhangpanyi/botcasino/config"
+	"github.com/zhangpanyi/botcasino/httprpc"
 	"github.com/zhangpanyi/botcasino/logic/syncfee"
 	"github.com/zhangpanyi/botcasino/models"
-	"github.com/zhangpanyi/botcasino/remote"
 	"github.com/zhangpanyi/botcasino/storage"
 	withdrawservice "github.com/zhangpanyi/botcasino/withdraw"
 
@@ -415,9 +415,9 @@ func (handler *WithdrawHandler) handleWithdraw(bot *methods.BotExt, r *history.H
 	bot.EditMessageReplyMarkup(query.Message, reply, true, nil)
 
 	// 钱包转账
-	assetID := remote.USDAssetID
+	assetID := httprpc.USDAssetID
 	if asset != storage.BitUSDSymbol {
-		assetID = remote.CNYAssetID
+		assetID = httprpc.CNYAssetID
 	}
 	future, err := withdrawservice.AddFuture(fromID, info.account, assetID, info.amount, fee)
 
@@ -451,7 +451,7 @@ func (handler *WithdrawHandler) HandleWithdrawFuture(future *withdrawservice.Fut
 	logger.Errorf("Failed to withdraw asset, transfer error, OrderID: %d, %v", future.OrderID, err)
 
 	asset := storage.BitCNYSymbol
-	if future.Transfer.AssetID != remote.CNYAssetID {
+	if future.Transfer.AssetID != httprpc.CNYAssetID {
 		asset = storage.BitUSDSymbol
 	}
 

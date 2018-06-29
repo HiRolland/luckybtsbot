@@ -6,8 +6,8 @@ import (
 	"sync"
 
 	"github.com/zhangpanyi/basebot/logger"
+	"github.com/zhangpanyi/botcasino/httprpc"
 	"github.com/zhangpanyi/botcasino/models"
-	"github.com/zhangpanyi/botcasino/remote"
 )
 
 // 工作者
@@ -122,7 +122,7 @@ func (w *work) loop() {
 		}
 
 		// 执行转账操作
-		err = remote.Transfer(future.OrderID, future.Transfer.To, future.Transfer.AssetID, future.Transfer.Amount)
+		err = httprpc.Transfer(future.OrderID, future.Transfer.To, future.Transfer.AssetID, future.Transfer.Amount)
 		future.setResult(err)
 		if err != nil {
 			// 更新订单状态

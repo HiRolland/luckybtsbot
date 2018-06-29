@@ -1,12 +1,6 @@
 # 端口号(80, 88, 443 or 8443)
 port: 8443
 
-# gRPC绑定地址
-grpc_bind_address: "0.0.0.0"
-
-# gRPC端口号
-grpc_port: 12180
-
 # 桶数量
 bucket_num: 16
 
@@ -19,7 +13,7 @@ api_website: "https://api.telegram.org/"
 # 机器人token
 token: "YOURTOKEN"
 
-# 钱包名称
+# 比特股账号
 account: "YOURACCOUNT"
 
 # 动态配置文件
@@ -31,10 +25,8 @@ languages: "languages"
 # BoltDB路径
 boltdb_path: "master.db"
 
-# 钱包服务配置
-wallet_service:
-  address: "127.0.0.1"
-  port: 17128
+# 监控服务地址
+monitor_url: "http://127.0.0.1:18080/"
 
 # 数据库配置
 sqlite:

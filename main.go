@@ -1,7 +1,6 @@
 package main
 
 import (
-	"strconv"
 	"syscall"
 
 	"github.com/vrecan/death"
@@ -15,9 +14,8 @@ import (
 	"github.com/zhangpanyi/botcasino/logic/timer"
 	"github.com/zhangpanyi/botcasino/models"
 	"github.com/zhangpanyi/botcasino/pusher"
-	"github.com/zhangpanyi/botcasino/remote"
-	"github.com/zhangpanyi/botcasino/service"
 	"github.com/zhangpanyi/botcasino/storage"
+	"github.com/zhangpanyi/botcasino/webhook"
 	"github.com/zhangpanyi/botcasino/webrpc"
 	"github.com/zhangpanyi/botcasino/withdraw"
 	"upper.io/db.v3/sqlite"
@@ -52,10 +50,7 @@ func main() {
 		logger.Panic(err)
 	}
 	webrpc.InitRoute(botUpdater.GetRouter())
-
-	// 连接钱包服务
-	remote.NewWalletServerForOnce(serveCfg.WalletService.Address,
-		serveCfg.WalletService.Port)
+	webhook.InitRoute(botUpdater.GetRouter())
 
 	// 同步转账手续费
 	syncfee.CheckFeeStatusAsync()
@@ -79,16 +74,12 @@ func main() {
 	// 创建消息推送器
 	pusher.CreatePusherForOnce(pool)
 
-	// 启动RPC服务
-	address := serveCfg.GRPCBindAddress + ":" + strconv.Itoa(serveCfg.GRPCPort)
-	go service.RunService(address)
-
 	// 启动更新服务器
-	logger.Infof("Casino server started, grpc listen: %s", address)
+	logger.Infof("Lucky money server started")
 	go func() {
 		err = botUpdater.ListenAndServe()
 		if err != nil {
-			logger.Panicf("Casino server failed to listen: %v", err)
+			logger.Panicf("Lucky money server failed to listen: %v", err)
 		}
 	}()
 
@@ -97,6 +88,6 @@ func main() {
 		syscall.SIGHUP, syscall.SIGQUIT, syscall.SIGALRM)
 	d.WaitForDeathWithFunc(func() {
 		storage.Close()
-		logger.Info("Casino server stoped")
+		logger.Info("Lucky money server stoped")
 	})
 }

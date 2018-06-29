@@ -25,8 +25,6 @@ import:
   - secure/bidirule
   - unicode/bidi
   - unicode/norm
-- package: google.golang.org/grpc
-  version: v1.9.2
 - package: google.golang.org/appengine
   subpackages:
   - cloudsql

@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/zhangpanyi/botcasino/config"
-	"github.com/zhangpanyi/botcasino/remote"
+	"github.com/zhangpanyi/botcasino/httprpc"
 	"github.com/zhangpanyi/botcasino/storage"
 
 	"github.com/zhangpanyi/basebot/logger"
@@ -66,7 +66,7 @@ func GetFee(asset string) (uint32, error) {
 // 同步转账手续费
 func syncTransferFees() error {
 	assets := [...]string{storage.BitCNYSymbol, storage.BitUSDSymbol}
-	result, err := remote.GetFees(assets[:])
+	result, err := httprpc.GetFees(assets[:])
 	if err != nil {
 		return err
 	}
