@@ -81,17 +81,22 @@ func GetFees(assets []string) ([]uint32, error) {
 		return nil, err
 	}
 
-	fees := make([]uint32, 0)
-	if err = json.Unmarshal(jsb, fees); err != nil {
+	fees := make([]float64, 0, len(assets))
+	if err = json.Unmarshal(jsb, &fees); err != nil {
 		return nil, err
 	}
-	return fees, nil
+
+	result := make([]uint32, 0, len(assets))
+	for i := 0; i < len(fees); i++ {
+		result = append(result, uint32(fees[i]*100))
+	}
+	return result, nil
 }
 
 // Transfer 转账操作
-func Transfer(orderID int64, to, assetID string, amount uint32) error {
+func Transfer(orderID int64, to, asset string, amount uint32) error {
 	memo := strconv.FormatInt(orderID, 10)
-	request := MakeRequest("transfer", to, assetID, amount, memo)
+	request := MakeRequest("transfer", to, asset, amount, memo)
 	_, err := request.Call()
 	return err
 }
