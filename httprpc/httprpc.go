@@ -73,6 +73,16 @@ func MakeRequest(method string, params ...interface{}) *Request {
 	return req
 }
 
+// 获取系统账户
+func GetAccount() (string, error) {
+	request := MakeRequest("account")
+	jsb, err := request.Call()
+	if err != nil {
+		return "", err
+	}
+	return string(jsb), nil
+}
+
 // GetFees 获取手续费
 func GetFees(assets []string) ([]uint32, error) {
 	request := MakeRequest("get_transfer_fees", assets)
