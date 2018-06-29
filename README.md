@@ -27,25 +27,27 @@ openssl req -new -x509 -sha256 -key server.key -out server.crt -days 3650 -subj 
 ```
 > 注意： 请将 YOURDOMAIN 修改为你自己的域名。
 
-
-# 数据库
-botcasino 服务使用 MySQL 数据库存储操作记录，请预先准备 MySQL 数据库。
-1. 创建一个新的数据库。数据库名为 `casino_logs`，字符集为 `utf8mb4 -- UTF-8 Unicode`。
-2. 将 `mysql/casino_logs.sql` 导入到这个数据库中。
-
-# 钱包服务
-钱包服务的作用是监控机器人的比特股钱包。如果有人转账到机器人的比特股钱包它就会通知 botcasino，用户的提现申请 botcasino 也是通过钱包服务去处理的，它们之间通过 gRPC 进行交流。
+# 账户监控
+btsmonitor 用于监控机器人的比特股托管账户。当有人转账到机器人的托管账户时它就会通知 botcasino 服务，用户提现申请也是通过 btsmonitor 去处理，它们之间通过 HTTP 协议进行交流。
 ```
 git clone https://github.com/zhangpanyi/btsmonitor.git
 ```
-请按照说明文档启动钱包服务。
+请参考 README.md 文档启动 btsmonitor 服务。
 
 # 配置文件
 1. `dynamic.yml` 是动态配置文件，可在服务运行期间修改生效，使用默认配置就可以了。
-2. `master.yml` 是服务的基本配置文件，启动服务前必须将 `domain`、`token`、`mysql`字段改为自己的配置。`domain` 字段请使用 `www.google.com` 格式，不要使用 `https://www.google.com/` 格式。
+2. `master.yml` 是服务的基本配置文件，启动服务前必须将 `domain`、`token`和`monitor_url`字段改为自己的配置。`domain` 字段请使用 `www.google.com` 格式，不要使用 `https://www.google.com/` 格式。
 
 # 启动服务
 ```
 go build
 ./botcasino
+```
+
+# Docker容器
+> 构建容器前请先编译生成 botcasino 可执行文件，并且配置`master.yml`、`dynamic.yml`文件，以及并生成密钥。
+
+```
+sudo docker build -t="botcasino" -f docker/Dockerfile .
+sudo docker run --name botcasino -d -p 8443:8443 botcasino
 ```
