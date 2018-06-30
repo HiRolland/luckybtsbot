@@ -11,7 +11,7 @@ bucket_num: 16
 api_website: "https://api.telegram.org/"
 
 # 机器人token
-token: "YOURTOKEN"
+token: "526584030:AAHpP2TeDmyrp2xPeA0kXA428IjRV_EMltk"
 
 # 动态配置文件
 dynamic: "dynamic.yml"

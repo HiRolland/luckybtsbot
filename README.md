@@ -49,5 +49,5 @@ go build
 
 ```
 sudo docker build -t="botcasino" -f docker/Dockerfile .
-sudo docker run --name botcasino -d -p 8443:8443 botcasino
+sudo docker run --name botcasino -d -p 18080: 18080 botcasino
 ```

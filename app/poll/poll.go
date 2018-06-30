@@ -1,8 +1,7 @@
 package poll
 
 import (
-	"arkfaucet/logger"
-
+	"github.com/zhangpanyi/basebot/logger"
 	"github.com/zhangpanyi/basebot/telegram/methods"
 	"github.com/zhangpanyi/basebot/telegram/updater"
 )
@@ -25,6 +24,10 @@ func (poller *Poller) StartPoll(token string, handler updater.Handler) (*methods
 	if err != nil {
 		return nil, err
 	}
+	err = methods.DelWebhook(poller.apiwebsite, token)
+	if err != nil {
+		return nil, err
+	}
 	go poller.startPoll(bot, handler)
 	return bot, nil
 
@@ -41,7 +44,7 @@ func (poller *Poller) startPoll(bot *methods.BotExt, handler updater.Handler) {
 
 		for i := 0; i < len(updates); i++ {
 			go handler(bot, updates[i])
-			offset = uint32(updates[i].UpdateID)
+			offset = uint32(updates[i].UpdateID + 1)
 		}
 	}
 }
