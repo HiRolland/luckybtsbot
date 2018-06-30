@@ -20,8 +20,8 @@ type SQliteCfg struct {
 
 // 服务配置
 type Serve struct {
+	Host       string    `yaml:"host"`        // 主机地址
 	Port       int       `yaml:"port"`        // HTTP端口
-	Domain     string    `yaml:"domain"`      // 服务域名
 	APIWebsite string    `yaml:"api_website"` // API服务站点
 	Token      string    `yaml:"token"`       // 机器人token
 	BucketNum  uint32    `yaml:"bucket_num"`  // 记录桶数量

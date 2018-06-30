@@ -1,8 +1,11 @@
 package main
 
 import (
+	"net/http"
+	"strconv"
 	"syscall"
 
+	"github.com/gorilla/mux"
 	"github.com/vrecan/death"
 	"github.com/zhangpanyi/basebot/logger"
 	"github.com/zhangpanyi/basebot/telegram/updater"
@@ -15,6 +18,7 @@ import (
 	"github.com/zhangpanyi/botcasino/app/logic/syncfee"
 	"github.com/zhangpanyi/botcasino/app/logic/timer"
 	"github.com/zhangpanyi/botcasino/app/models"
+	"github.com/zhangpanyi/botcasino/app/poll"
 	"github.com/zhangpanyi/botcasino/app/pusher"
 	"github.com/zhangpanyi/botcasino/app/storage"
 	"github.com/zhangpanyi/botcasino/app/webhook"
@@ -52,44 +56,48 @@ func main() {
 	}
 	config.SetAccount(account)
 
-	// 创建更新器
-	botUpdater, err := updater.NewUpdater(serveCfg.Port, serveCfg.Domain, serveCfg.APIWebsite)
-	if err != nil {
-		logger.Panic(err)
-	}
-	admin.InitRoute(botUpdater.GetRouter())
-	webhook.InitRoute(botUpdater.GetRouter())
-
 	// 同步转账手续费
 	syncfee.CheckFeeStatusAsync()
 
 	// 运行转账服务
 	withdraw.RunWithdrawServiceForOnce(6)
 
-	// 启动红包机器人
+	// 创建消息上下文管理
 	context.CreateManagerForOnce(serveCfg.BucketNum)
-	bot, err := botUpdater.AddHandler(serveCfg.Token, logic.NewUpdate)
+
+	// 创建轮询器
+	poller := poll.NewPoller(serveCfg.APIWebsite)
+	bot, err := poller.StartPoll(serveCfg.Token, logic.NewUpdate)
 	if err != nil {
 		logger.Panic(err)
 	}
 	logger.Infof("Lucky money bot id is: %d", bot.ID)
-	pool := updater.NewPool(2048)
-	timer.StartTimerForOnce(bot, pool)
 
 	// 初始化推送配置
 	notice.InitBotForOnce(bot)
 
+	// 启动红包定时器
+	pool := updater.NewPool(2048)
+	timer.StartTimerForOnce(bot, pool)
+
 	// 创建消息推送器
 	pusher.CreatePusherForOnce(pool)
 
-	// 启动更新服务器
-	logger.Infof("Lucky money server started")
+	// 启动HTTP服务器
+	router := mux.NewRouter()
+	admin.InitRoute(router)
+	webhook.InitRoute(router)
+	addr := serveCfg.Host + ":" + strconv.Itoa(serveCfg.Port)
 	go func() {
-		err = botUpdater.ListenAndServe()
-		if err != nil {
-			logger.Panicf("Lucky money server failed to listen: %v", err)
+		s := &http.Server{
+			Addr:    addr,
+			Handler: router,
+		}
+		if err = s.ListenAndServe(); err != nil {
+			logger.Panicf("Failed to listen and serve, %v, %v", addr, err)
 		}
 	}()
+	logger.Infof("Lucky money server started")
 
 	// 捕捉退出信号
 	d := death.NewDeath(syscall.SIGTERM, syscall.SIGINT, syscall.SIGKILL,
