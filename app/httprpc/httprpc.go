@@ -33,6 +33,17 @@ type Response struct {
 	Result  json.RawMessage `json:"result"`  // 返回结果
 }
 
+func toString(raw json.RawMessage) string {
+	if raw == nil {
+		return ""
+	}
+	str := string(raw)
+	if len(str) > 2 && str[0] == '"' && str[len(str)-1] == '"' {
+		return str[1 : len(str)-1]
+	}
+	return string(raw)
+}
+
 // 方法调用
 func (req *Request) Call() ([]byte, error) {
 	jsb, err := json.Marshal(req)
@@ -83,7 +94,7 @@ func GetAccount() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return string(jsb), nil
+	return toString(jsb), nil
 }
 
 // 获取手续费

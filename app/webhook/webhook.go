@@ -53,7 +53,7 @@ func handleTransferOperation(w http.ResponseWriter, r *http.Request) {
 	jsb, err := ioutil.ReadAll(r.Body)
 	defer r.Body.Close()
 	if err != nil {
-		logger.Infof("Failed to read body, %v", err)
+		logger.Infof("Webhook, failed to read body, %v", err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -61,17 +61,18 @@ func handleTransferOperation(w http.ResponseWriter, r *http.Request) {
 	// 序列化请求
 	var operation TransferOperation
 	if err = json.Unmarshal(jsb, &operation); err != nil {
-		logger.Infof("Failed to parse transfer operation, %v", err)
+		logger.Infof("Webhook, failed to parse transfer operation, %v", err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
+	serveCfg := config.GetServe()
+	logger.Infof("Webhook, new transfer operation: %+v, %v", operation, serveCfg.Account)
 
 	// 请求分发处理
 	var memo string
 	if operation.Memo != nil {
 		memo = *operation.Memo
 	}
-	serveCfg := config.GetServe()
 	if operation.To == serveCfg.Account {
 		handleTransferredIn(operation.Asset, operation.Amount, operation.BlockNum, memo)
 	} else if operation.From == serveCfg.Account {
