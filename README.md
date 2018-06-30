@@ -11,22 +11,6 @@ git clone https://github.com/zhangpanyi/botcasino.git
 glide install
 ```
 
-# 解析域名
-botcasino 服务使用了 [Webhook](https://core.telegram.org/bots/api#setwebhook) 的方式接收机器人消息更新。所有必须准备一个域名，并解析到运行 botcasino 的服务器上。
-
-# 生成密钥
-```shell
-cd certs
-
-openssl genrsa -out server.key 2048
-
-openssl ecparam -genkey -name secp384r1 -out server.key
-
-openssl req -new -x509 -sha256 -key server.key -out server.crt -days 3650 -subj "/C=US/ST=New York/L=Brooklyn/O=Brooklyn Company/CN=YOURDOMAIN"
-
-```
-> 注意： 请将 YOURDOMAIN 修改为你自己的域名。
-
 # 账户监控
 btsmonitor 用于监控机器人的比特股托管账户。当有人转账到机器人的托管账户时它就会通知 botcasino 服务，用户提现申请也是通过 btsmonitor 去处理，它们之间通过 HTTP 协议进行交流。
 ```
