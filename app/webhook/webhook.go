@@ -68,7 +68,7 @@ func handleTransferOperation(w http.ResponseWriter, r *http.Request) {
 
 	// 请求分发处理
 	var memo string
-	if operation.Memo == nil {
+	if operation.Memo != nil {
 		memo = *operation.Memo
 	}
 	serveCfg := config.GetServe()
