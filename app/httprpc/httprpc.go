@@ -120,7 +120,7 @@ func GetFees(assets []string) ([]uint32, error) {
 // 转账操作
 func Transfer(orderID int64, to, asset string, amount uint32) error {
 	memo := strconv.FormatInt(orderID, 10)
-	request := MakeRequest("transfer", to, asset, amount, memo)
+	request := MakeRequest("transfer", to, asset, amount/100.0, memo)
 	_, err := request.Call()
 	return err
 }
