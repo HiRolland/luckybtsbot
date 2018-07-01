@@ -1,8 +1,6 @@
 package models
 
 import (
-	"time"
-
 	"upper.io/db.v3"
 )
 
@@ -35,7 +33,7 @@ type Withdraw struct {
 	Real       uint32         `db:"real"`             // 真实手续费(分)
 	Status     WithdrawStatus `db:"status"`           // 提现状态
 	Reason     *string        `db:"reason,omitempty"` // 错误原因
-	InsertedAt time.Time      `db:"inserted_at"`      // 插入日期
+	InsertedAt string         `db:"inserted_at"`      // 插入日期
 }
 
 // 获取提现订单

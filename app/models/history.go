@@ -1,8 +1,6 @@
 package models
 
 import (
-	"time"
-
 	db "upper.io/db.v3"
 )
 
@@ -11,9 +9,9 @@ const HistoryTableName = "history"
 
 // 历史记录
 type History struct {
-	UserID     int64     `db:"user_id"`     // 用户ID
-	Describe   string    `db:"describe"`    // 描述信息
-	InsertedAt time.Time `db:"inserted_at"` // 插入日期
+	UserID     int64  `db:"user_id"`     // 用户ID
+	Describe   string `db:"describe"`    // 描述信息
+	InsertedAt string `db:"inserted_at"` // 插入日期
 }
 
 // 插入历史
