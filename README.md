@@ -20,7 +20,7 @@ git clone https://github.com/zhangpanyi/btsmonitor.git
 
 # 配置文件
 1. `dynamic.yml` 是动态配置文件，可在服务运行期间修改生效，使用默认配置就可以了。
-2. `master.yml` 是服务的基本配置文件，启动服务前必须将 `domain`、`token`和`monitor_url`字段改为自己的配置。`domain` 字段请使用 `www.google.com` 格式，不要使用 `https://www.google.com/` 格式。
+2. `master.yml` 是服务的基本配置文件，启动服务前必须将 `token`和`monitor_url`字段改为自己的配置。
 
 # 启动服务
 ```
