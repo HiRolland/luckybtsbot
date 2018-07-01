@@ -29,7 +29,7 @@ go build
 ```
 
 # Docker容器
-> 构建容器前请先编译生成 botcasino 可执行文件，并且配置`master.yml`、`dynamic.yml`文件，以及并生成密钥。
+> 构建容器前请先编译生成 botcasino 可执行文件，并且配置好`master.yml`、`dynamic.yml`文件。
 
 ```
 sudo docker build -t="botcasino" -f docker/Dockerfile .
