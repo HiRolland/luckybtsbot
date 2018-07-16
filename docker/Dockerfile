@@ -8,7 +8,7 @@ COPY languages/ /root/server/languages/
 
 RUN cd /root/server/ && chmod +x botcasino
 
-EXPOSE 8443
+EXPOSE 18080
 
 WORKDIR /root/server
 
