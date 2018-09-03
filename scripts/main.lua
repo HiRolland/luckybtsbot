@@ -1,6 +1,41 @@
 local http = require("http");
 local json = require("json");
 
+local account = nil
+local url = 'http://127.0.0.1:18080/'
+
+-- JSON RPC 客户端
+local rpc = {}
+rpc.call = function(method, params)
+    local req = {jsonrpc= "2.0", method= method, params= params, id= 1}
+    local jstring, err = json:dump(req)
+    if err ~= nil then
+        return nil, err
+    end
+
+    print(string.format('[Lua script] json rpc2 request: %s', jstring))
+    local resp, err = http:post(url, 'application/json', jstring)
+    if err ~= nil then
+        print(string.format('[Lua script] json rpc2 request error: %s', err))
+        return nil, err
+    end
+    print(string.format('[Lua script] json rpc2 respone status_code: %s',
+        resp['status_code']))
+
+    local result, err = json:parse(resp['body'])
+    if err ~= nil then
+        return nil, err
+    end
+
+    if result['error'] ~= nil then
+        local err = result['error']
+        print(string.format('[Lua script] json rpc2 respone error, code: %d, %s',
+            err['code'], err['message']))
+        return nil, string.format('code: %d, %s', err['code'], err['message'])
+    end
+    return result['result'], nil
+end
+
 -- 时钟事件
 -- @param delaytime <number>
 function on_tick(delaytime)
@@ -10,6 +45,27 @@ end
 -- @param address <string> 地址
 -- @return <boolean>
 function valid_address(address)
+    if string.len(address) < 3 then
+        return false
+    end
+    if string.len(address) >= 64 then
+        return false
+    end
+    for c in string.gmatch(address, ".") do
+        local valid = false
+        if c == '-' then
+            valid = true
+        end
+        if c >= 'a' and c <= 'z' then
+            valid = true
+        end
+        if c >= '0' and c <= '9' then
+            valid = true
+        end
+        if valid ~= true then
+            return false
+        end
+    end
     return true
 end
 
@@ -18,16 +74,32 @@ end
 -- @return address <string>
 -- @return memo <string or nil>
 function deposit_address(userid)
-    return 'test', userid
+    if account == nil then
+        local to, err = rpc.call('account', {})
+        if err ~= nil then
+            return '', userid
+        end
+        account = to
+    end
+    return account, userid
 end
 
 -- 接收提现请求
 -- @param to <string> 目标地址
 -- @param symbol <string> 货币符号
 -- @param amount <string> 提现金额
--- @param future <Future> 处理完成必须调用set_result(txid, error)方法
+-- @return txid <string> 交易ID
+-- @return error <string or nil> 错误信息
 function on_withdraw(to, symbol, amount, future)
-    future:set_result(nil, 'unrealized')
+    if symbol ~= 'BTS' then
+        return nil, 'invalid symbol'
+    end
+    
+    local txid, err = rpc.call('transfer', {to, symbol, amount, ''})
+    if err ~= nil then
+        return nil, err
+    end  
+    return txid, nil
 end
 
 -- 交易是否有效
