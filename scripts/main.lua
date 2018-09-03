@@ -90,7 +90,7 @@ end
 -- @param amount <string> 提现金额
 -- @return txid <string> 交易ID
 -- @return error <string or nil> 错误信息
-function on_withdraw(to, symbol, amount, future)
+function on_withdraw(to, symbol, amount)
     if symbol ~= 'BTS' then
         return nil, 'invalid symbol'
     end
