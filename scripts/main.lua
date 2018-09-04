@@ -38,6 +38,18 @@ rpc.call = function(method, params)
     return result['result'], nil
 end
 
+-- 获取账户
+function get_account()
+    if account == nil then
+        local to, err = rpc.call('account', {})
+        if err ~= nil then
+            return ''
+        end
+        account = to
+    end
+    return account
+end
+
 -- 时钟事件
 -- @param delaytime <number>
 function on_tick(delaytime)
@@ -76,35 +88,29 @@ end
 -- @return address <string>
 -- @return memo <string or nil>
 function deposit_address(userid)
-    if account == nil then
-        local to, err = rpc.call('account', {})
-        if err ~= nil then
-            return '', userid
-        end
-        account = to
-    end
-    return account, userid
+    return get_account(), userid
 end
 
 -- 接收提现请求
 -- @param to <string> 目标地址
 -- @param symbol <string> 货币符号
 -- @param amount <string> 提现金额
--- @return txid <string> 交易ID
--- @return error <string or nil> 错误信息
-function on_withdraw(to, symbol, amount)
+-- @param future <Future> 处理完成必须调用set_result(txid, error)方法
+function on_withdraw(to, symbol, amount, future)
     if symbol ~= btssymbol then
         print('[Lua script] withdraw fail, invalid symbol')
-        return nil, 'invalid symbol'
+        future:set_result(nil, 'invalid symbol')
+        return
     end
     
     local txid, err = rpc.call('transfer', {to, symbol, amount, ''})
     if err ~= nil then
         print(string.format('[Lua script] withdraw fail, %s', err))
-        return nil, err
+        future:set_result(nil, err)
+        return
     end  
     print(string.format('[Lua script] withdraw success, txid: %s', txid))
-    return txid, nil
+    future:set_result(txid, nil)
 end
 
 -- 交易是否有效
@@ -116,5 +122,8 @@ end
 -- @param memo <string> 备注信息
 -- @return <boolean>
 function valid_transaction(txid, from, to, symbol, amount, memo)
+    if to ~= get_account() then
+        return false
+    end
     return true
 end
