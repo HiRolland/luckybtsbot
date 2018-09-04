@@ -2,6 +2,7 @@ local http = require("http");
 local json = require("json");
 
 local account = nil
+local btssymbol = 'TEST'
 local url = 'http://127.0.0.1:18080/'
 
 -- JSON RPC 客户端
@@ -22,6 +23,7 @@ rpc.call = function(method, params)
     print(string.format('[Lua script] json rpc2 respone status_code: %s',
         resp['status_code']))
 
+    print(string.format('[Lua script] json rpc2 respone: %s', resp['body']))
     local result, err = json:parse(resp['body'])
     if err ~= nil then
         return nil, err
@@ -91,14 +93,17 @@ end
 -- @return txid <string> 交易ID
 -- @return error <string or nil> 错误信息
 function on_withdraw(to, symbol, amount)
-    if symbol ~= 'BTS' then
+    if symbol ~= btssymbol then
+        print('[Lua script] withdraw fail, invalid symbol')
         return nil, 'invalid symbol'
     end
     
     local txid, err = rpc.call('transfer', {to, symbol, amount, ''})
     if err ~= nil then
+        print(string.format('[Lua script] withdraw fail, %s', err))
         return nil, err
     end  
+    print(string.format('[Lua script] withdraw success, txid: %s', txid))
     return txid, nil
 end
 
