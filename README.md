@@ -38,6 +38,11 @@ sudo docker build -t="btsmonitor" -f docker/Dockerfile .
 sudo docker run --name btsmonitor --network luckybot --ip 10.0.1.101 -d btsmonitor
 ```
 
+如需查看容器日志执行命令：
+```bash
+sudo docker logs -f btsmonitor
+```
+
 ### 3. 部署 luckybtsbot
 
 运行初始化配置脚本，如需要修改配置请编辑 `server.yml` 文件：
@@ -53,4 +58,9 @@ sudo docker build -t="luckybtsbot" -f docker/Dockerfile .
 最后运行容器：
 ```bash
 sudo docker run --name luckybtsbot --network luckybot --ip 10.0.1.102 -d -p 80:80 luckybtsbot
+```
+
+如需查看容器日志执行命令：
+```bash
+sudo docker logs -f luckybtsbot
 ```
