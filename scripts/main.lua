@@ -3,7 +3,7 @@ local json = require("json");
 
 local account = nil
 local btssymbol = 'TEST'
-local url = 'http://127.0.0.1:18080/'
+local url = 'http://10.0.1.101:18080/'
 
 -- JSON RPC 客户端
 local rpc = {}
