@@ -1,0 +1,2 @@
+# luckybtsbot
+基于BitShares锚定货币的Telegram红包机器人
