@@ -1,13 +1,13 @@
 FROM golang:1.11
 
-COPY lang/ /root/luckybtsbot/
-COPY scripts/ /root/luckybtsbot/
 COPY luckybot /root/luckybtsbot/
 COPY server.yml /root/luckybtsbot/
+COPY lang/ /root/luckybtsbot/lang
+COPY scripts/ /root/luckybtsbot/scripts
 
 RUN chmod +x /root/luckybtsbot/luckybot
 
-WORKDIR root/luckybtsbot/
+WORKDIR /root/luckybtsbot/
 
 EXPOSE 80
 
