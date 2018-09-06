@@ -64,3 +64,7 @@ sudo docker run --name luckybtsbot --network luckybot --ip 10.0.1.102 -d -p 80:8
 ```bash
 sudo docker logs -f luckybtsbot
 ```
+
+# 其它事项
+
+此项目默认使用比特股测试网络而非主网，网关地址：[https://testnet.bitshares.eu/](https://testnet.bitshares.eu/)。如果需要替换到主网请自行编辑配置文件，更多说明文档请查阅 [luckybot](https://github.com/zhangpanyi/luckybot) 项目和 [btsmonitor](https://github.com/zhangpanyi/btsmonitor) 项目。
